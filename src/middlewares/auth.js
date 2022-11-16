@@ -1,30 +1,67 @@
-import ErrorResponse from "../utilities/errorResponse";
-import jwt from "jsonwebtoken";
+import { verify, decode } from "../../utils";
+import Modle from "../../models";
 
-exports.protect = async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  }
-  // set token to cookie
-  // else if(req.cookies.token){
-  //     token = req.cookies.token;
-  // }
-
-  //Token Exsits
-  if (!token) {
-    return next(new ErrorResponse("Not authorized to access this route", 401));
-  }
-
+// check token access
+export const isAuthenticated = async (req, res, next) => {
   try {
-    // verify token
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.split(" ")[1] &&
+      req.headers.authorization.split(" ")[1] != "null" &&
+      req.headers.authorization.split(" ")[1] != "undefined"
+    ) {
+      const token = req.headers.authorization.split(" ")[1];
+      const payload = await verify(token);
+      const token_detial = decode(token);
+      const details = await Modle.profile.findOne({
+        where: { user_profile_id: token_detial?.id },
+        attributes: ["id"],
+      });
+      res.locals.user = payload;
+      req.body["profile_id"] = details?.id;
+      req.body["user_profile_id"] = token_detial?.id;
+      return next();
+    }
+    return next({
+      code: 403,
+      message: "You are not an authorized user!",
+    });
+  } catch (err) {
+    console.log(err);
+    return next({
+      code: 400,
+      message: err.message,
+    });
+  }
+};
 
-    next();
-  } catch (error) {
-    return next(new ErrorResponse("Not authorized to access this route", 401));
+// get profile id by user profile id
+export const getUserProfile = async (req, res, next) => {
+  try {
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.split(" ")[1] &&
+      req.headers.authorization.split(" ")[1] != "null" &&
+      req.headers.authorization.split(" ")[1] != "undefined"
+    ) {
+      const token = req.headers.authorization.split(" ")[1];
+      const payload = await verify(token);
+
+      const details = await Modle.profile.findOne({
+        where: { user_profile_id: payload?.id },
+        attributes: ["id"],
+      });
+
+      return details;
+    }
+    return next({
+      code: 403,
+      message: "You are not an authorized user!",
+    });
+  } catch (err) {
+    return next({
+      code: 400,
+      message: err.message,
+    });
   }
 };

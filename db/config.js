@@ -4,11 +4,12 @@ dotenv.config();
 
 module.exports = {
   development: {
-    username: process.env.DEV_DB_USER,
-    password: process.env.DEV_DB_PASSWORD,
-    database: process.env.DEV_DB_DATABASE,
-    host: process.env.DEV_DB_HOST,
-    dialect: process.env.DEV_DB_DIALECT,
+    username: process.env.USER_NAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
+    dialect: process.env.DIALECT,
+    port: process.env.PORT,
   },
   staging: {
     username: "root",
