@@ -1,4 +1,5 @@
 "use strict";
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
@@ -13,8 +14,9 @@ module.exports = {
         type: DataTypes.STRING,
         unique: true,
       },
-      email: {
+      email_id: {
         type: DataTypes.STRING,
+        unique: true,
         validate: {
           isEmail: true,
         },

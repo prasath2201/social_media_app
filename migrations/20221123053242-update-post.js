@@ -4,9 +4,9 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     return Promise.all([
-      queryInterface.addColumn("Posts", "created_by", {
+      queryInterface.changeColumn("Posts", "created_by", {
         type: Sequelize.UUID,
-        references: { model: "profiles", key: "id" },
+        references: { model: "user_profiles", key: "id" },
       }),
     ]);
   },

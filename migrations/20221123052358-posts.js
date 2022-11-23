@@ -23,6 +23,10 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE,
       },
+      created_by: {
+        type: DataTypes.UUID,
+        references: { model: "profiles", key: "id" },
+      },
     });
   },
   async down(queryInterface, DataTypes) {

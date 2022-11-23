@@ -2,23 +2,16 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("likes", {
+    await queryInterface.createTable("commands", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      command_id: {
         type: Sequelize.UUID,
-        references: { model: "commands", key: "id" },
+        defaultValue: Sequelize.UUIDV4,
       },
       post_id: {
         type: Sequelize.UUID,
         references: { model: "Posts", key: "id" },
-      },
-      type: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -28,9 +21,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      created_by: {
+        type: Sequelize.UUID,
+        references: { model: "user_profiles", key: "id" },
+      },
+      command: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("likes");
+    await queryInterface.dropTable("commands");
   },
 };

@@ -14,6 +14,7 @@ module.exports = {
       },
       follwer: {
         type: Sequelize.UUID,
+        references: { model: "user_profiles", key: "id" },
       },
       createdAt: {
         allowNull: false,

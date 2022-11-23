@@ -3,11 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return Promise.all([
-      queryInterface.addColumn("replies", "id", {
-        type: Sequelize.UUID,
-      }),
-    ]);
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
   },
 
   async down(queryInterface, Sequelize) {
