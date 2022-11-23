@@ -4,34 +4,6 @@ import routers from "./src/routers";
 import { Sequelize } from "sequelize";
 // import config from "./db/config";
 var fileupload = require("express-fileupload");
-// var nodemailer = require("nodeemailer");
-
-//  // Only needed if you don't have a real mail account for testing
-//  let testAccount = await nodemailer.createTestAccount();
-
-// let mailTransporter = nodemailer.createTransport({
-//   service:"gmail",
-//   auth:{
-//     user:"test@gmail.com",
-//     password:"12345"
-//   }
-// })
-
-// let details = {
-//   from:"test@gmail.com",
-//   to:"test1@gmail.com",
-//   subject:"testing",
-//   text:"test"
-// }
-
-// mailTransporter.sendMail(details , (err)=>{
-//   if(err){
-
-//   }
-//   else{
-//     console.log("send")
-//   }
-// })
 
 /**
  * Express Instance
