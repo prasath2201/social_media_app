@@ -84,18 +84,23 @@ app.listen(PORT, async () => {
   try {
     console.log("Server is running at port : " + PORT);
     // const sequelize = new Sequelize(config[process.env.NODE_ENV]);
-    const sequelize = await new Sequelize("postgres", "prasath", "root", {
-      host: "localhost",
-      port: "5432",
-      dialect: "postgres",
-      logging: false,
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000,
-      },
-      query: { raw: true },
-    });
+    const sequelize = await new Sequelize(
+      "postgres",
+      "postgres",
+      "TczqWBKwKgf#427",
+      {
+        host: "db.wneplftbgkqowgrmcuyk.supabase.co",
+        port: "5432",
+        dialect: "postgres",
+        logging: false,
+        pool: {
+          max: 5,
+          min: 0,
+          idle: 10000,
+        },
+        query: { raw: true },
+      }
+    );
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
   } catch (error) {
