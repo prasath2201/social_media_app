@@ -2,6 +2,9 @@ import OS from "os";
 import express from "express";
 import routers from "./src/routers";
 import { Sequelize } from "sequelize";
+const env = "production";
+const config = require("./db/config")[env];
+
 // import config from "./db/config";
 var fileupload = require("express-fileupload");
 
@@ -14,7 +17,7 @@ const app = express();
  *  PORT ESTABLISHMENT AND BODY PARSING
  */
 
-const PORT = process.env.PORT_LISTEN || 4040;
+const PORT = process.env.PORT_LISTEN || 3001;
 app.set("port", PORT);
 app.use(express.json());
 app.use(fileupload());
@@ -56,14 +59,14 @@ app.listen(PORT, async () => {
   try {
     console.log("Server is running at port : " + PORT);
     // const sequelize = new Sequelize(config[process.env.NODE_ENV]);
-    const sequelize = await new Sequelize(
-      "postgres",
-      "postgres",
-      "TczqWBKwKgf#427",
+    const sequelize = new Sequelize(
+      config?.database,
+      config?.username,
+      config?.password,
       {
-        host: "db.wneplftbgkqowgrmcuyk.supabase.co",
-        port: "5432",
-        dialect: "postgres",
+        host: config?.host,
+        port: config?.port,
+        dialect: config?.dialect,
         logging: false,
         pool: {
           max: 5,
