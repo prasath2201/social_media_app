@@ -11,11 +11,12 @@ module.exports = {
     dialect: process.env.DIALECT,
     port: process.env.PORT,
   },
-  staging: {
-    username: "root",
-    password: null,
-    database: "database_test",
-    host: "127.0.0.1",
-    dialect: "mysql",
+  production: {
+    username: "postgres",
+    password: "root",
+    database: "postgres",
+    host: "localhost",
+    dialect: "postgres",
+    port: "5432",
   },
 };

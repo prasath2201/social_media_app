@@ -1,6 +1,7 @@
 import Modle from "../../../models";
 import { v4 as uuidv4 } from "uuid";
 import { encode } from "../../../utils";
+import nodemailer from "nodemailer";
 
 const bcryptjs = require("bcryptjs");
 
@@ -53,11 +54,11 @@ export const CreateProfile = (payload) => {
 };
 
 // get user profile details
-export const GetUserProfile = ({ id }) => {
+export const GetUserProfile = ({ user_profile_id }) => {
   return new Promise(async (resolve, reject) => {
     try {
       const details = await Modle.profile.findOne({
-        where: { id },
+        where: { user_profile_id },
         attributes: [
           "profile_image",
           "mobile_no",
@@ -66,6 +67,20 @@ export const GetUserProfile = ({ id }) => {
           "bio",
           "banner_image",
           "name",
+          [
+            Modle.Sequelize.literal(`(
+                  SELECT COUNT(*)
+                  FROM follwers WHERE follwer = '${user_profile_id}'
+              )`),
+            "follwers",
+          ],
+          [
+            Modle.Sequelize.literal(`(
+                  SELECT COUNT(*)
+                  FROM follwers WHERE user_id = '${user_profile_id}'
+              )`),
+            "following",
+          ],
         ],
       });
       resolve(details);
@@ -102,12 +117,12 @@ export const CreateUserProfile = ({
     try {
       if (!id) {
         await Modle.profile.create(payload);
-        resolve("User Created Successfully");
+        resolve("Profile Created Successfully");
       } else {
         await Modle.profile.update(payload, {
           where: { id },
         });
-        resolve("User Created Successfully");
+        resolve("Profile Updated Successfully");
       }
     } catch (error) {
       console.log(error);
@@ -115,3 +130,44 @@ export const CreateUserProfile = ({
     }
   });
 };
+
+export const mailTrigerFunction = async ({
+  from = "",
+  to = "",
+  subject = "",
+  text = "",
+  html = "",
+}) => {
+  try {
+    // Generate test SMTP service account from ethereal.email
+    // Only needed if you don't have a real mail account for testing
+    let testAccount = await nodemailer.createTestAccount();
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: testAccount.user, // generated ethereal user
+        pass: testAccount.pass, // generated ethereal password
+      },
+    });
+
+    let info = "";
+    if (to && subject) {
+      // send mail with defined transport object
+      info = await transporter.sendMail({
+        from, // sender address
+        to, // list of receivers
+        subject, // Subject line
+        text, // plain text body
+        html, // html body
+      });
+    }
+    // console.log("sucess")
+  } catch (err) {
+    console.log(err);
+  }
+};
+// mailTrigerFunction("prasathmm001@gmail.com" , "prasathm009@gmail.com" , "test")

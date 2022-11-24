@@ -26,3 +26,23 @@ export const UpsertFollow = ({ user_profile_id, follwer, id }) => {
     }
   });
 };
+
+// create follow
+export const GetPopularFolloers = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = Modle.Follwers.findAndCountAll({
+        attributes: [
+          [
+            Modle.Sequelize.fn("AVG", Modle.Sequelize.col("user_id")),
+            "avgRating",
+          ],
+        ],
+      });
+      resolve(data);
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+};

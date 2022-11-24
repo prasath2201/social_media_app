@@ -1,5 +1,5 @@
 import express from "express";
-// controllers
+import nodemailer from "nodemailer";
 import { UserProfile, CreateProfile } from "../../../controllers";
 import { v4 as uuidv4 } from "uuid";
 
