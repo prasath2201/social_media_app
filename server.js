@@ -2,7 +2,7 @@ import OS from "os";
 import express from "express";
 import routers from "./src/routers";
 import { Sequelize } from "sequelize";
-const env = "production";
+const env = process.env.NODE_ENV || "production";
 const config = require("./db/config")[env];
 
 // import config from "./db/config";
@@ -17,7 +17,7 @@ const app = express();
  *  PORT ESTABLISHMENT AND BODY PARSING
  */
 
-const PORT = process.env.PORT_LISTEN || 3001;
+const PORT = 4040;
 app.set("port", PORT);
 app.use(express.json());
 app.use(fileupload());
@@ -59,7 +59,7 @@ app.listen(PORT, async () => {
   try {
     console.log("Server is running at port : " + PORT);
     // const sequelize = new Sequelize(config[process.env.NODE_ENV]);
-    const sequelize = new Sequelize(
+    const sequelize = await new Sequelize(
       config?.database,
       config?.username,
       config?.password,

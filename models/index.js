@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const env = "production";
+const env = process.env.NODE_ENV || "production";
 const config = require("../db/config")[env];
 const db = {};
 
@@ -19,18 +19,7 @@ if (config?.use_env_variable) {
     config?.database,
     config?.username,
     config?.password,
-    {
-      host: config?.host,
-      port: config?.port,
-      dialect: config?.dialect,
-      logging: false,
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000,
-      },
-      query: { raw: true },
-    }
+    config
   );
 }
 

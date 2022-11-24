@@ -11,7 +11,7 @@ module.exports = {
     dialect: process.env.DIALECT,
     port: process.env.PORT,
   },
-  production: {
+  development: {
     username: "postgres",
     password: "root",
     database: "postgres",
