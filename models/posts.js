@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "post_id",
         as: "like",
       });
+      Posts.hasMany(models.SavedPosts, {
+        onDelete: "CASCADE",
+        foreignKey: "post_id",
+      });
     }
   }
   Posts.init(

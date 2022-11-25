@@ -1,6 +1,5 @@
 import Modle from "../../../models";
 import { v4 as uuidv4 } from "uuid";
-const { QueryTypes } = require("sequelize");
 
 // create post
 export const CreatePost = ({ id, post, description, user_profile_id }) => {
@@ -105,6 +104,16 @@ export const GetPostAll = ({ id, offset = 0, limit = 10 }) => {
             include: [
               { model: Modle.profile, attributes: ["name", "profile_image"] },
             ],
+          },
+          {
+            model: Modle.SavedPosts,
+            where: {
+              created_by: {
+                [Modle.Sequelize.Op.eq]: id,
+              },
+            },
+            attributes: [["id", "post_save_id"]],
+            required: false,
           },
         ],
         attributes: [

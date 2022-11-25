@@ -8,7 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      SavedPosts.hasMany(models.UserProfile, {
+        onDelete: "CASCADE",
+        foreignKey: "created_by",
+      });
+      SavedPosts.belongsTo(models.Posts, {
+        onDelete: "CASCADE",
+        foreignKey: "post_id",
+      });
     }
   }
   SavedPosts.init(
@@ -23,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       created_by: {
         type: DataTypes.UUID,
-        references: { model: "user_profiles", key: "id" },
       },
       createdAt: {
         allowNull: false,

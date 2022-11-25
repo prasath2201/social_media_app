@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         foreignKey: "created_by",
       });
+      UserProfile.hasMany(models.SavedPosts, {
+        onDelete: "CASCADE",
+        foreignKey: "created_by",
+      });
     }
   }
   UserProfile.init(

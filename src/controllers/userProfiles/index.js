@@ -11,6 +11,7 @@ export const UserProfile = ({ email_id, password }) => {
     try {
       var user_details = await Modle.UserProfile.findOne({
         where: { email_id: email_id },
+        attributes: ["id", "password"],
       });
       if (!user_details) {
         return resolve({ type: "Error", message: "Email is not exists" });

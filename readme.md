@@ -9,6 +9,7 @@ npx sequelize-cli model:generate --name User --attributes firstName:string,lastN
 ## migrate the file
 
 npx sequelize-cli db:migrate
+devlopment
 
 ## change colom
 

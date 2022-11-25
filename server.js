@@ -17,7 +17,7 @@ const app = express();
  *  PORT ESTABLISHMENT AND BODY PARSING
  */
 
-const PORT = 4040;
+const PORT = 5000;
 app.set("port", PORT);
 app.use(express.json());
 app.use(fileupload());
