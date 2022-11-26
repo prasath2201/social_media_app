@@ -140,18 +140,14 @@ export const mailTrigerFunction = async ({
   html = "",
 }) => {
   try {
-    // Generate test SMTP service account from ethereal.email
-    // Only needed if you don't have a real mail account for testing
-    let testAccount = await nodemailer.createTestAccount();
-
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
+      service: "gmail",
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
+        user: "chatboxapp2201@gmail.com", // generated ethereal user
+        pass: "8667726969", // generated ethereal password
       },
     });
 
@@ -166,9 +162,9 @@ export const mailTrigerFunction = async ({
         html, // html body
       });
     }
-    // console.log("sucess")
+    console.log("sucess", info);
   } catch (err) {
     console.log(err);
   }
 };
-// mailTrigerFunction("prasathmm001@gmail.com" , "prasathm009@gmail.com" , "test")
+// mailTrigerFunction("checkboxsocialapp2201@gmail.com" , "chatboxapp2201@gmail.com" , "test")

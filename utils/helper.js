@@ -24,5 +24,3 @@ export const sendMessage = async () => {
     console.log(err.message);
   }
 };
-
-sendMessage();
