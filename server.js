@@ -2,25 +2,28 @@ import OS from "os";
 import express from "express";
 import routers from "./src/routers";
 import { Sequelize } from "sequelize";
+import socket from "socket.io";
+import morgan from "morgan";
+
 const env = process.env.NODE_ENV || "production";
+const PORT = process.env.PORT_LISTEN || 8080;
+const socketport = process.env.SOCKET || 5000;
+
 const config = require("./db/config")[env];
 
 // import config from "./db/config";
 var fileupload = require("express-fileupload");
-
 /**
  * Express Instance
  */
 const app = express();
-
 /**
  *  PORT ESTABLISHMENT AND BODY PARSING
  */
-
-const PORT = 5000;
 app.set("port", PORT);
 app.use(express.json());
 app.use(fileupload());
+app.get(morgan("dev"));
 
 /**
  *  Thread pool configuration settings for  the application server.
@@ -50,6 +53,28 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/api/v1", routers);
+
+// socket server
+const server = app.listen(PORT, () => console.log(`Server started on ${PORT}`));
+
+// socket implementation
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("socket connected");
+  socket.on("send-msg", (data) => {
+    console.log(data);
+    io.emit("msg-recieve", data);
+  });
+  socket.on("disconnect", () => {
+    console.log("socket disconnected");
+  });
+});
 
 /**
  *  DATABASE CONNECTION CONFIGURATION

@@ -13,9 +13,30 @@ module.exports = (sequelize, DataTypes) => {
   }
   chat.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      message: {
+        type: DataTypes.STRING,
+      },
+      created_by: {
+        type: DataTypes.UUID,
+        references: { model: "user_profiles", key: "id" },
+      },
+      users: {
+        type: DataTypes.JSONB,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,
