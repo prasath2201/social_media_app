@@ -21,11 +21,12 @@ export const isAuthenticated = async (req, res, next) => {
       req.body["profile_id"] = details?.id;
       req.body["user_profile_id"] = token_detial?.id;
       return next();
+    } else {
+      return next({
+        code: 403,
+        message: "You are not an authorized user!",
+      });
     }
-    return next({
-      code: 403,
-      message: "You are not an authorized user!",
-    });
   } catch (err) {
     console.log(err);
     return next({
