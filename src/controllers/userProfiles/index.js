@@ -48,7 +48,7 @@ export const CreateProfile = (payload) => {
       await Modle.UserProfile.create(payload);
       resolve("User Created Successfully");
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       reject(error);
     }
   });

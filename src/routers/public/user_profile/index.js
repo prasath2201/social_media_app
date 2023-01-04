@@ -35,7 +35,7 @@ router.post("/create_user", async (req, res, next) => {
     const data = await CreateProfile(value);
     res.status(200).send({ type: "success", data });
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
     next({
       code: 500,
       message: err.message,
